@@ -1,0 +1,74 @@
+<div style="height:50px"></div>
+<md-content class="jh-menu-view sinPad" md-whiteframe="3" layout="column" flex="60" flex-offset="20" ng-controller="ventasCtrl">
+    <md-toolbar class="no-print">
+        <div class="md-toolbar-tools">
+            <md-button class="md-fab md-mini" ui-sref="listVent">
+                <md-icon class="material-icons">chevron_left</md-icon>
+            </md-button>
+            <img src="img/001-money.svg" style="width: 40px; margin-right:10px">
+            <p class="md-display-1 text-center" flex> Detalle Venta</p>
+            <md-button class="md-fab md-mini" ui-sref="addVent">
+                <md-icon class="material-icons">add</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <div layout="row" layout-align="space-around">
+        <md-progress-circular ng-if="preload" md-diameter="80" md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <div layout="row" layout-padding>
+        <div flex="60" flex-offset="20">
+            <div layout="row">
+                <h2 class="md-display-1" style="margin-bottom: 0;">Código: {{venta.CodVen}}</h2>
+            </div>
+            <div layout="row">
+                <p>Fecha: {{venta.Fecha}}</p>
+            </div>
+            <div layout="row" layout-align="start center">
+                <div class="jh-autocomplete">
+                    <img ng-src="{{venta.PhotoUrl}}">
+                </div>
+                <p> {{venta.Nombres}} {{venta.Apellidos}} <br>C.C {{venta.CodEmp}}</p>
+            </div>
+        </div>
+    </div>
+    <div layout="column" flex="80" flex-offset="10">
+        <md-list flex>
+            <md-subheader>cant producto</md-subheader>
+            <md-list-item ng-repeat="p in venta.productos">
+                <div layout="row">
+                    <md-input-container flex="10">
+                        <label>Cantidad</label>
+                        <input type="number" ng-model="p.Cantidad" min="1" disabled>
+                    </md-input-container>
+                    <md-input-container flex="40">
+                        <label>Nombre</label>
+                        <input type="text" ng-model="p.Nombre" disabled>
+                    </md-input-container>
+                    <md-input-container flex="20">
+                        <label>Precio unitario</label>
+                        <input type="text" ng-model="p.precio" disabled>
+                    </md-input-container>
+                    <md-input-container flex="20">
+                        <label>Precio total</label>
+                        <input type="text" ng-value="p.precio * p.Cantidad" disabled>
+                    </md-input-container>
+                </div>
+            </md-list-item>
+            <md-list-item>
+                <p>Subtotal: {{subtotal | currency:"COP$":0}}</p>
+            </md-list-item>
+            <md-list-item>
+                <p>Impuesto al consumo: {{consumo | currency:"COP$":0}}</p>
+            </md-list-item>
+            <md-list-item>
+                <h2>Total: {{total | currency:"COP$":0}}</h2>
+            </md-list-item>
+        </md-list>
+    </div>
+    <div layout="row" layout-align="end" class="no-print">
+        <md-button class="md-fab" onclick="window.print()">
+            <md-icon class="material-icons">print</md-icon>
+        </md-button>
+    </div>
+</md-content>
+<div style="height:20px"></div>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="sandwichApp">
+<head>
+    <script>
+        function initMap() {
+            console.log('Google Maps Ready');
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Midas App</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="lib_front/angular-material/angular-material.min.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="lib_front/moment/moment.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSyQDM-87lfNdi1psybhAeQWs2TVovbco&callback=initMap"></script>
+
+    <script src="lib_front/angular/angular.min.js"></script>
+    <script src="lib_front/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="lib_front/angular-aria/angular-aria.min.js"></script>
+    <script src="lib_front/angular-animate/angular-animate.min.js"></script>
+    <script src="lib_front/angular-messages/angular-messages.min.js"></script>
+    <script src="lib_front/angular-material/angular-material.min.js"></script>
+    <script src="lib_front/ng-file-upload/ng-file-upload.min.js"></script>
+
+    <script src="scripts/app.js"></script>
+    <script src="scripts/directivas/jhoyMaps.js"></script>
+    <script src="scripts/jhService.js"></script>
+    <script src="scripts/controladores/categoriasCtrl.js"></script>
+    <script src="scripts/controladores/productosCtrl.js"></script>
+    <script src="scripts/controladores/cargosCtrl.js"></script>
+    <script src="scripts/controladores/tiendasCtrl.js"></script>
+    <script src="scripts/controladores/empleadosCtrl.js"></script>
+    <script src="scripts/controladores/ingCtrl.js"></script>
+    <script src="scripts/controladores/proveedoresCtrl.js"></script>
+    <script src="scripts/controladores/ventasCtrl.js"></script>
+</head>
+<body>
+    <div ui-view></div>
+</body>
+</html>

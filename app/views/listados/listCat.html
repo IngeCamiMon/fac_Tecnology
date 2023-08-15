@@ -1,0 +1,48 @@
+<div style="height:50px"></div>
+<md-content class="jh-menu-view sinPad" md-whiteframe="3" layout="column" flex="60" flex-offset="20"
+            ng-controller="catCtrl">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-fab md-mini" ui-sref="home">
+                <md-icon class="material-icons">chevron_left</md-icon>
+            </md-button>
+            <img src="img/001-salty.svg" style="width: 40px; margin-right:10px">
+            <p class="md-display-1 text-center" flex> Categorías</p>
+        </div>
+    </md-toolbar>
+    <div layout="row" layout-align="space-around">
+        <md-progress-circular ng-if="preload" md-diameter="80" md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <md-list ng-cloak layout-padding>
+        <md-subheader>id nombre <span style="float: right">acción</span></md-subheader>
+        <md-list-item ng-repeat="cat in categorias">
+            <md-input-container ng-show="showEdit">
+                <label>Nombre categoría</label>
+                <input type="text" ng-model="cat.Nombre">
+            </md-input-container>
+            <p ng-hide="showEdit"><span class="bold">{{$index + 1}}</span> {{cat.Nombre}}</p>
+            <md-button class="md-secondary md-icon-button" ng-show="showEdit" ng-click="editCat(cat); showEdit = false">
+                <md-icon class="material-icons">done</md-icon>
+            </md-button>
+            <md-button class="md-secondary md-icon-button" ng-hide="showEdit" ng-click="showEdit = true">
+                <md-icon class="material-icons">edit</md-icon>
+            </md-button>
+            <md-button class="md-secondary md-icon-button" ng-hide="showEdit" ng-click="deleteCat($index, cat)">
+                <md-icon class="material-icons">delete</md-icon>
+            </md-button>
+            <md-divider></md-divider>
+        </md-list-item>
+    </md-list>
+    <div layout="row" layout-padding layout-align="end center">
+        <div>
+            <md-input-container class="md-block">
+                <label>Nombre categoría</label>
+                <input type="text" ng-model="nuevoCat">
+            </md-input-container>
+        </div>
+        <md-button class="md-fab" ng-click="addCat(nuevoCat)" ng-disabled="!nuevoCat">
+            <md-icon class="material-icons">add</md-icon>
+        </md-button>
+    </div>
+</md-content>
+<div style="height:20px"></div>

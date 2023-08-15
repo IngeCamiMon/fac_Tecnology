@@ -1,0 +1,113 @@
+<div style="height:50px"></div>
+<md-content class="jh-menu-view sinPad" md-whiteframe="3" layout="column" flex="60" flex-offset="20" ng-controller="emplCtrl">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-fab md-mini" ui-sref="listEmp">
+                <md-icon class="material-icons">chevron_left</md-icon>
+            </md-button>
+            <img src="img/003-waiter.svg" style="width: 40px; margin-right:10px">
+            <p class="md-display-1 text-center" flex> {{id ? 'Editar emplado' : 'Añadir empleado'}}</p>
+        </div>
+    </md-toolbar>
+    <div layout="row" layout-align="space-around">
+        <md-progress-circular ng-if="preload" md-diameter="80" md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <div layout="row" layout-padding>
+        <div flex="50">
+            <div layout="row" style="margin-bottom: 20px;">
+                <md-button class="md-raised md-primary" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"
+                           ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100">Subir Foto</md-button>
+                <p>{{file.name}}</p>
+            </div>
+            <form name="newEmp" layout="column">
+                <div layout="column">
+                    <md-input-container class="md-block">
+                        <label>Cédula</label>
+                        <input type="number" name="CodEmp" ng-model="empleado.CodEmp" required>
+                        <div ng-messages="newEmp.CodEmp.$error" role="alert">
+                            <div ng-message="required" class="my-message">El campo es requerido</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container class="md-block">
+                        <label>Nombres</label>
+                        <input type="text" name="nombres" ng-model="empleado.Nombres" required>
+                        <div ng-messages="newEmp.nombres.$error" role="alert">
+                            <div ng-message="required" class="my-message">El campo es requerido</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Apellidos</label>
+                        <input type="text" name="Apellidos" ng-model="empleado.Apellidos" required>
+                        <div ng-messages="newEmp.Apellidos.$error" role="alert">
+                            <div ng-message="required" class="my-message">El campo es requerido</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container class="md-block">
+                        <label>Salario</label>
+                        <input type="number" name="Salario" ng-model="empleado.Salario" required>
+                        <div ng-messages="newEmp.Salario.$error" role="alert">
+                            <div ng-message="required" class="my-message">El campo es requerido</div>
+                        </div>
+                    </md-input-container>
+                    <div>
+                        <md-button ng-hide="!id || editFecha" class="md-raised md-primary" ng-click="editFecha = true">
+                            Editar fecha ingreso
+                        </md-button>
+                    </div>
+                    <md-datepicker ng-if="!id || editFecha" ng-model="date" ng-change="parseDate(date)" required md-placeholder="Inserte fecha" md-open-on-focus></md-datepicker>
+                </div>
+                <div layout="row">
+                    <md-input-container class="md-block">
+                        <label>Cargo</label>
+                        <md-select ng-model="empleado.CodCar" name="CodCar" ng-change="setCargo(empleado.CodCar)" required>
+                            <md-option ng-repeat="c in cargos | orderBy: 'Nombre'" ng-value="c.CodCar">
+                                {{c.Nombre}}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="newPro.CodCar.$error" role="alert">
+                            <div ng-message="required" class="my-message">El campo es requerido</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Tienda</label>
+                        <md-select ng-model="empleado.CodSuc" name="tienda" ng-change="setSuc(empleado.CodSuc)" required>
+                            <md-option ng-repeat="t in tiendas" ng-value="t.CodSuc">
+                                {{t.Direccion}}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="newPro.tienda.$error" role="alert">
+                            <div ng-message="required" class="my-message">El campo es requerido</div>
+                        </div>
+                    </md-input-container>
+                </div>
+            </form>
+            <md-button class="md-fab" ng-click="id ? editEmpleado(empleado, file) : addEmpleado(empleado, file)" ng-disabled="newEmp.$invalid">
+                <md-icon class="material-icons">save</md-icon>
+            </md-button>
+        </div>
+        <div flex="50" layout="column" layout-align="start center">
+            <div class="jh-avatar" md-whiteframe="3">
+                <img ng-if="empleado.PhotoUrl && file" ngf-thumbnail="file">
+                <img ng-if="empleado.PhotoUrl && !file" ng-src="{{empleado.PhotoUrl}}">
+                <img ng-if="!empleado.PhotoUrl" ngf-thumbnail="file || '/img/003-waiter.svg'">
+            </div>
+            <md-content>
+                <h4>CC. <span ng-if="empleado.CodEmp">{{empleado.CodEmp}}</span></h4>
+                <p>Nombres: <span ng-if="empleado.Nombres">{{empleado.Nombres}}</span></p>
+                <p>Apellidos: <span ng-if="empleado.Apellidos">{{empleado.Apellidos}}</span></p>
+                <p>Salario: <span ng-if="empleado.Salario">{{empleado.Salario | currency:"COP$":0}}</span></p>
+                <p>Fecha ingreso: <span ng-if="empleado.Fecha_ingreso">{{empleado.Fecha_ingreso}}</span></p>
+                <p>Cargo: <span ng-if="empleado.CodCar">{{tempCargo}}</span></p>
+                <p>Tienda: <span ng-if="empleado.CodSuc">{{tempSuc}}</span></p>
+            </md-content>
+        </div>
+    </div>
+    <div ng-if="upload">
+        <md-progress-linear md-mode="determinate" value="{{progressUpload}}"></md-progress-linear>
+    </div>
+</md-content>
+<div style="height:20px"></div>

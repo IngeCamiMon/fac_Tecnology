@@ -1,0 +1,70 @@
+<div style="height:50px"></div>
+<md-content class="jh-menu-view sinPad" md-whiteframe="3" layout="column" flex="60" flex-offset="20"
+            ng-controller="prodCtrl">
+    <md-toolbar ng-init="showSearch = false">
+        <div class="md-toolbar-tools">
+            <md-button class="md-fab md-mini" ui-sref="listPro">
+                <md-icon class="material-icons">chevron_left</md-icon>
+            </md-button>
+            <img src="img/002-sandwich.svg" style="width: 40px; margin-right:10px">
+            <p class="md-display-1 text-center" flex> Agregar Producto</p>
+        </div>
+    </md-toolbar>
+    <div layout="row" layout-align="space-around">
+        <md-progress-circular ng-if="preload" md-diameter="80" md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <form name="newPro" layout="column" layout-padding>
+        <div layout="row">
+            <div flex="30">
+                <md-input-container class="md-block">
+                    <label>Nombre</label>
+                    <input type="text" name="nombre" ng-model="producto.Nombre" required>
+                    <div ng-messages="newPro.nombre.$error" role="alert">
+                        <div ng-message="required" class="my-message">El campo es requerido</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div flex="30">
+                <md-input-container class="md-block">
+                    <label>Categoría</label>
+                    <md-select ng-model="producto.CodCat" name="categoria" required>
+                        <md-option ng-repeat="c in categorias | orderBy: 'Nombre'" ng-value="c.CodCat">
+                            {{c.Nombre}}
+                        </md-option>
+                    </md-select>
+                    <div ng-messages="newPro.categoria.$error" role="alert">
+                        <div ng-message="required" class="my-message">El campo es requerido</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div flex="20">
+                <md-input-container class="md-block">
+                    <label>Precio Estandar</label>
+                    <input type="number" name="precio" ng-model="producto.Precio" required>
+                    <div ng-messages="newPro.precio.$error" role="alert">
+                        <div ng-message="required" class="my-message">El campo es requerido</div>
+                    </div>
+                </md-input-container>
+            </div>
+        </div>
+        <div layout="row">
+            <div flex="60">
+                <md-input-container class="md-block">
+                    <label>Descripción</label>
+                    <textarea name="descrip" rows="5" ng-model="producto.Descripcion" md-maxlength="250"></textarea>
+                    <div ng-messages="newPro.descrip.$error" role="alert">
+                        <div ng-message="md-maxlength" class="my-message">
+                            El texto no puede contener más de 250 caracteres
+                        </div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div flex="40">
+                <md-button class="md-fab" ng-disabled="newPro.$invalid" ng-click="addPro(producto)">
+                    <md-icon class="material-icons">save</md-icon>
+                </md-button>
+            </div>
+        </div>
+    </form>
+</md-content>
+<div style="height:20px"></div>

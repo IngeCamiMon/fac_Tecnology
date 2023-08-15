@@ -1,0 +1,58 @@
+<div style="height:70px"></div>
+<md-content class="jh-menu-view sinPad" md-whiteframe="3" layout="column" flex="80" flex-offset="10" ng-controller="tiendaCtrl">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <md-button class="md-fab md-mini" ui-sref="listStore">
+            <md-icon class="material-icons">chevron_left</md-icon>
+        </md-button>
+        <img src="img/002-restaurant.svg" style="width: 40px; margin-right:10px">
+        <p class="md-display-1 text-center" flex> {{tiendaExist ? 'Editar Tienda' : 'Añadir Tienda'}}</p>
+      </div>
+    </md-toolbar>
+    <div layout="row" layout-align="space-around">
+      <md-progress-circular ng-if="preload" md-diameter="80" md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <form name="newStore" layout="column" layout-padding>
+        <div layout="row">
+            <div flex="30">
+                <md-input-container class="md-block">
+                    <label>Dirección</label>
+                    <textarea type="text" rows="3" name="direccion" md-maxlength="100" ng-model="tienda.Direccion" required></textarea>
+                    <div ng-messages="newStore.direccion.$error" role="alert">
+                        <div ng-message="required" class="my-message">El campo es requerido</div>
+                        <div ng-message="md-maxlength" class="my-message">
+                            El texto no puede contener más de 100 caracteres
+                        </div>
+                    </div>
+                </md-input-container>
+                <p>Haga click en el mapa para cambiar estos valores.</p>
+                <md-input-container class="md-block">
+                    <label>Latitud</label>
+                    <input disabled type="text" name="latitud" ng-model="tienda.Latitud" required>
+                    <div ng-messages="newStore.latitud.$error" role="alert">
+                        <div ng-message="required" class="my-message">El campo es requerido</div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label>Longitud</label>
+                    <input disabled type="text" name="longitud" ng-model="tienda.Longitud" required>
+                    <div ng-messages="newStore.longitud.$error" role="alert">
+                        <div ng-message="required" class="my-message">El campo es requerido</div>
+                    </div>
+                </md-input-container>
+                <md-button id="getPosition" class="md-fab md-mini">
+                    <md-icon class="material-icons">my_location</md-icon>
+                </md-button>
+            </div>
+            <div flex="60" flex-offset="10">
+                <jhoy-maps my-pos="getPosition" jh-model="tienda" find-pos="true" tienda-exist="tiendaExist"></jhoy-maps>
+            </div>
+        </div>
+        <div layout="row" layout-align="end center">
+            <md-button class="md-fab" ng-disabled="newStore.$invalid" ng-click="!tiendaExist ? addTienda(tienda) : editarTienda(tienda)">
+                <md-icon class="material-icons">save</md-icon>
+            </md-button>
+        </div>
+    </form>
+</md-content>
+<div style="height:20px"></div>

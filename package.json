@@ -1,0 +1,27 @@
+{
+  "name": "sandwiches",
+  "version": "1.0.0",
+  "description": "Sandwiches App USB",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "postinstall": "./node_modules/bower/bin/bower install"
+  },
+  "keywords": [
+    "USB",
+    "Jhoy",
+    "Berrocal"
+  ],
+  "author": "Jhoy Berrocal",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "bower": "^1.8.2",
+    "connect-multiparty": "^2.0.0",
+    "cors": "^2.8.3",
+    "express": "^4.15.2",
+    "morgan": "^1.9.0",
+    "mysql": "^2.13.0",
+    "slug": "^0.9.1"
+  }
+}

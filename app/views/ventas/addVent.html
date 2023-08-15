@@ -1,0 +1,128 @@
+<div style="height:50px"></div>
+<md-content class="jh-menu-view sinPad" md-whiteframe="3" layout="column" flex="80" flex-offset="10" ng-controller="ventasCtrl">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-fab md-mini" ui-sref="listVent">
+                <md-icon class="material-icons">chevron_left</md-icon>
+            </md-button>
+            <img src="img/001-money.svg" style="width: 40px; margin-right:10px">
+            <p class="md-display-1 text-center" flex> Ventas</p>
+            <md-button class="md-fab md-mini" ng-disabled="!total && temp.empleado == null" ng-click="addVenta($event)">
+                <md-icon class="material-icons">save</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <div layout="row" layout-align="space-around">
+        <md-progress-circular ng-if="preload" md-diameter="80" md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <form name="addVent" layout="row" layout-padding>
+        <div flex="40">
+            <div layout="row">
+                <md-autocomplete md-input-name="empleado" md-selected-item="temp.empleado" md-search-text="searchText" md-items="item in querySearch(searchText)"
+                    md-item-text="item.Nombres" placeholder="Cajero" md-floating-label="Cajero" md-require-match>
+                    <md-item-template>
+                        <div class="item-title">
+                            <div class="jh-autocomplete">
+                                <img ng-src="{{item.PhotoUrl}}">
+                            </div>
+                            <span>{{item.Nombres}} {{item.Apellidos}}</span>
+                        </div>
+                    </md-item-template>
+                    <md-not-found>
+                        El Empleado "{{searchText}}" no se encuentra.
+                    </md-not-found>
+                </md-autocomplete>
+                <md-input-container>
+                    <label>Fecha</label>
+                    <input type="text" ng-model="date" disabled>
+                </md-input-container>
+            </div>
+            <div layout="row">
+                <md-input-container>
+                    <label>Categoría</label>
+                    <md-select ng-model="finder">
+                        <md-option ng-value=""><em>None</em></md-option>
+                        <md-option ng-repeat="c in categorias" ng-value="c.CodCat">
+                            {{c.Nombre}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <div layout="row" layout-align="space-between center">
+                <md-input-container flex="20">
+                    <label>Cant</label>
+                    <input type="number" ng-model="temp.cantidad" min="1">
+                </md-input-container>
+                <md-autocomplete md-input-name="Producto" md-selected-item="temp.producto" md-search-text="searchPro" md-items="item in queryPro(searchPro, finder)"
+                    md-no-cache md-item-text="item.Nombre" placeholder="Producto" md-floating-label="Producto" md-require-match>
+                    <md-item-template>
+                        <div class="item-title">
+                            <span>{{item.Nombre}}</span>
+                        </div>
+                    </md-item-template>
+                    <md-not-found>
+                        El Producto "{{searchPro}}" no se encuentra.
+                    </md-not-found>
+                </md-autocomplete>
+            </div>
+            <div layout="column" ng-init="temp.tipo = 0">
+                <md-select ng-if="temp.producto && temp.producto.PrecioAlar" ng-model="temp.tipo">
+                    <md-option ng-value="0">Precio normal</md-option>
+                </md-select>
+            </div>
+            <div layout="row">
+                <md-button class="md-fab md-mini" ng-click="addPro(temp)">
+                    <md-icon class="material-icons">add</md-icon>
+                </md-button>
+            </div>
+        </div>
+        <div flex="60">
+            <div layout="row" layout-padding>
+                <b>
+                    <p>Fecha: {{date}}</p>
+                    <p>{{temp.empleado.Nombres}} {{temp.empleado.Apellidos}}</p>
+                </b>
+            </div>
+            <div layout="column">
+                <md-list flex>
+                    <md-subheader>cant producto <span style="float: right">acción</span></md-subheader>
+                    <md-list-item ng-repeat="p in venta.productos">
+                        <div layout="row">
+                            <md-input-container flex="10">
+                                <label>Cantidad</label>
+                                <input type="number" ng-model="p.cantidad" min="1" ng-change="calc()">
+                            </md-input-container>
+                            <md-input-container flex="40">
+                                <label>Nombre</label>
+                                <input type="text" ng-model="p.nombre" disabled>
+                            </md-input-container>
+                            <md-input-container flex="20">
+                                <label>Precio unitario</label>
+                                <input type="text" ng-model="p.precio" disabled>
+                            </md-input-container>
+                            <md-input-container flex="20">
+                                <label>Precio total</label>
+                                <input type="text" ng-value="p.precio * p.cantidad" disabled>
+                            </md-input-container>
+                            <div>
+                                <md-button class="md-icon-button" ng-click="remPro($index)">
+                                    <md-icon class="material-icons">delete</md-icon>
+                                </md-button>
+                            </div>
+                        </div>
+                    </md-list-item>
+                    <md-list-item>
+                        <p>Subtotal: {{subtotal | currency:"COP$":0}}</p>
+                    </md-list-item>
+                    <md-list-item>
+                        <p>Impuesto al consumo: {{consumo | currency:"COP$":0}}</p>
+                    </md-list-item>
+                    <md-list-item>
+                        <h2>Total: {{total | currency:"COP$":0}}</h2>
+                    </md-list-item>
+                </md-list>
+            </div>
+        </div>
+    </form>
+</md-content>
+<div style="height:20px"></div>

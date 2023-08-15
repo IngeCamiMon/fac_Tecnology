@@ -1,0 +1,56 @@
+<div style="height:50px"></div>
+<md-content class="jh-menu-view sinPad" md-whiteframe="3" layout="column" flex="60" flex-offset="20" ng-controller="ventasCtrl">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-fab md-mini" ui-sref="home">
+                <md-icon class="material-icons">chevron_left</md-icon>
+            </md-button>
+            <img src="img/001-money.svg" style="width: 40px; margin-right:10px">
+            <p class="md-display-1 text-center" flex> Ventas</p>
+            <md-button class="md-fab md-mini" ng-click="showSearch = !showSearch">
+                <md-icon class="material-icons">search</md-icon>
+            </md-button>
+            <md-button class="md-fab md-mini" ui-sref="addVent">
+                <md-icon class="material-icons">add</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <div layout="row" layout-align="space-around">
+        <md-progress-circular ng-if="preload" md-diameter="80" md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <div layout="row" layout-padding ng-show="showSearch" layout-align="center center">
+        <div flex="10">
+            <h4>Buscar</h4>
+        </div>
+        <div flex="30">
+            <md-input-container class="md-block">
+                <label>Fecha: YYYY-MM-DD</label>
+                <input type="text" ng-model="find.Fecha">
+            </md-input-container>
+        </div>
+        <div flex="30">
+            <md-input-container class="md-block">
+                <label>Cajero</label>
+                <input type="text" ng-model="find.Nombres">
+            </md-input-container>
+        </div>
+        <div flex="10">
+            <md-button class="md-fab md-mini" ng-click="showSearch = !showSearch">
+                <md-icon class="material-icons">keyboard_arrow_up</md-icon>
+            </md-button>
+        </div>
+    </div>
+    <md-divider></md-divider>
+    <md-list ng-cloak layout-padding>
+        <md-subheader>id nombre</md-subheader>
+        <md-list-item class="md-3-line" ng-repeat="v in ventas | filter: find" ui-sref="detalleVent({id: v.CodVen})">
+            <div class="md-list-item-text">
+                <h3><span class="bold">{{v.CodVen}}</span> {{v.Nombres}} {{v.Apellidos}}</h3>
+                <p>{{v.Fecha}} - <span ng-repeat="p in v.productos">{{p.Cantidad}} {{p.Nombre}}, </span></p>
+                <p>Subtotal: {{v.subtotal | currency:"COP$":0}} Total: {{v.total | currency:"COP$":0}}</p>
+            </div>
+            <md-divider></md-divider>
+        </md-list-item>
+    </md-list>
+</md-content>
+<div style="height:20px"></div>
